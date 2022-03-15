@@ -166,6 +166,7 @@ def do_inference(cfg,
 
     for n_iter, (img, pid, camid, camids, target_view, imgpath) in enumerate(val_loader):
         with torch.no_grad():
+            print(n_iter)
             img = img.to(device)
             camids = camids.to(device)
             target_view = target_view.to(device)

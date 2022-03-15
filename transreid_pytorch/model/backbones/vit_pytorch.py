@@ -27,7 +27,7 @@ from itertools import repeat
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch._six import container_abcs
+import collections.abc as container_abcs
 
 
 # From PyTorch internals
@@ -215,10 +215,14 @@ class PatchEmbed(nn.Module):
         self.proj = nn.Conv2d(in_chans, embed_dim, kernel_size=patch_size, stride=stride_size)
 
     def forward(self, x):
+        # [64, 3, 384, 128]
         if self.stem_conv:
             x = self.conv(x)
+        # [64, 64, 192, 64]
         x = self.proj(x)
+        # [64, 768, 24 ,8]
         x = x.flatten(2).transpose(1, 2) # [64, 8, 768]
+        # [64, 192, 768]
         return x
 
 
